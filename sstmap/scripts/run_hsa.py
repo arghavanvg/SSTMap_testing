@@ -25,6 +25,7 @@ def parse_args():
     required.add_argument('-f', '--num_frames', required=False, type=int, default=10000,
                         help='''Total number of frames to process.''')
     parser._action_groups.append(parser._action_groups.pop(1))
+
     parser.add_argument('-c', '--clusters', required=False, type=str, default=None,
                         help='''PDB file containing cluster centers.''')
     parser.add_argument('-d', '--hsa_region', required=False, type=float, default=5.0,
@@ -37,7 +38,9 @@ def parse_args():
                         help='''Bulk density of the water model.''')
     parser.add_argument('-o', '--output_prefix', required=False, type=str, default="hsa",
                         help='''Prefix for all the results files.''')
-
+    parser.add_argument('-w', '--site_water_file', required=False, type=str,
+                    help='''site waters pkl file''')
+    
     if len(sys.argv[1:]) == 0:
         parser.print_help()
         parser.exit()
