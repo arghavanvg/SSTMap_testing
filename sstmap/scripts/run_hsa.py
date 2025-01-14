@@ -39,7 +39,7 @@ def parse_args():
     parser.add_argument('-o', '--output_prefix', required=False, type=str, default="hsa",
                         help='''Prefix for all the results files.''')
     parser.add_argument('-w', '--site_water_file', required=False, type=str,
-                    help='''site waters pkl file''')
+                    help='''a pkl file of site water list.''')
     
     if len(sys.argv[1:]) == 0:
         parser.print_help()
