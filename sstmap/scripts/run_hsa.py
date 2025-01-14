@@ -55,6 +55,8 @@ def parse_args():
         sys.exit("%s not found. Please make sure it exits or give the correct path." % args.clusters)
     if args.param_file is not None and not os.path.exists(args.param_file):# or not os.path.isdir(args.param_file):
         sys.exit("%s not found. Please make sure it exits or give the correct path." % args.param_file)
+    if args.site_water_file is not None and not os.path.isfile(args.site_water_file):
+        sys.exit("%s not found. Please make sure it exits or give the correct path." % args.clusters)
     return args
 
 
@@ -76,15 +78,20 @@ def main():
         supp = os.path.abspath(args.param_file)
     
     ligand = os.path.abspath(args.ligand)
+
     clusters = args.clusters
     if args.clusters is not None:
         clusters = os.path.abspath(args.clusters)
+
+    sw_file = args.site_water_file
+    if args.site_water_file is not None:
+        sw_file = os.path.abspath(args.site_water_file)
 
     os.chdir(data_dir)
     h = SiteWaterAnalysis(top, traj,
                         start_frame=args.start_frame, num_frames=args.num_frames,
                         ligand_file=ligand, supporting_file=supp, hsa_region_radius=args.hsa_region,
-                        clustercenter_file=clusters, rho_bulk=args.bulk_density, prefix=args.output_prefix)
+                        clustercenter_file=clusters, rho_bulk=args.bulk_density, prefix=args.output_prefix, site_water_file=sw_file)
     h.initialize_hydration_sites()
     h.print_system_summary()
     h.calculate_site_quantities()

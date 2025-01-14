@@ -62,7 +62,7 @@ class SiteWaterAnalysis(WaterAnalysis):
     @function_timer
     def __init__(self, topology_file, trajectory, start_frame=0, num_frames=None,
                  supporting_file=None, ligand_file=None, hsa_region_radius=5.0, clustercenter_file=None,
-                 rho_bulk=0.0334, prefix="hsa", site_water_filele):
+                 rho_bulk=0.0334, prefix="hsa", site_water_file=None):
         """Initialize a SiteWaterAnalysis object for site-based solvation structure
         and thermodynamic calculations.
 
@@ -103,6 +103,7 @@ class SiteWaterAnalysis(WaterAnalysis):
         super(SiteWaterAnalysis, self).__init__(topology_file, trajectory, supporting_file)
 
         self.prefix = prefix
+        self.site_water_file=site_water_file
         self.site_waters = None
         if clustercenter_file is None and ligand_file is None:
             sys.exit("Please provide either a ligand file for clustering or\
