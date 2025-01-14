@@ -62,7 +62,7 @@ class SiteWaterAnalysis(WaterAnalysis):
     @function_timer
     def __init__(self, topology_file, trajectory, start_frame=0, num_frames=None,
                  supporting_file=None, ligand_file=None, hsa_region_radius=5.0, clustercenter_file=None,
-                 rho_bulk=0.0334, prefix="hsa"):
+                 rho_bulk=0.0334, prefix="hsa", site_water_filele):
         """Initialize a SiteWaterAnalysis object for site-based solvation structure
         and thermodynamic calculations.
 
