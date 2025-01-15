@@ -103,7 +103,7 @@ class SiteWaterAnalysis(WaterAnalysis):
         super(SiteWaterAnalysis, self).__init__(topology_file, trajectory, supporting_file)
 
         self.prefix = prefix
-        self.site_water_file=site_water_file
+        self.site_water_file = site_water_file
         self.site_waters = None
         if clustercenter_file is None and ligand_file is None:
             sys.exit("Please provide either a ligand file for clustering or\
@@ -175,6 +175,13 @@ class SiteWaterAnalysis(WaterAnalysis):
             A dictionary containing full results for each quantity for each of the N
             cluster centers. The full results for a quantity consist of a list of all
             measurements obtained during the calculation.
+        
+        Arghavan's Comment:
+        -------
+        site_array.shape (N, 29) where N is the number of hydration sites and 29 is the length of data_titles
+        len(site_dict) = 30 --> 29 for data_titles and the last one site_dict[site_i][-1] is np.zeros((num_frames * 3, 3).
+        so if num_frames == 100, then len of site_dict[site_i][-1] = 300 or np.shape(site_dict[site_i][-1]) = (300, 3)
+
         """
         n_sites = cluster_coords.shape[0]
         site_array = np.zeros((n_sites, len(self.data_titles)))
@@ -458,9 +465,9 @@ class SiteWaterAnalysis(WaterAnalysis):
                 cluster_index += 1
 
         # Write clustercenter file
-        write_watpdb_from_coords("clustercenterfile", final_cluster_coords)
-        self.clustercenter_file = "clustercenterfile.pdb"
-        print(("Final number of clusters: {0:d}".format(len(final_cluster_coords))))
+        # write_watpdb_from_coords("clustercenterfile", final_cluster_coords)
+        # self.clustercenter_file = "clustercenterfile.pdb"
+        # print(("Final number of clusters: {0:d}".format(len(final_cluster_coords))))
         return np.asarray(final_cluster_coords), site_waters
 
     def _process_frame(self, trj, frame_i, energy, hbonds, entropy,
