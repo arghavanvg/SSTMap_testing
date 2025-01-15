@@ -40,6 +40,8 @@ def parse_args():
                         help='''Prefix for all the results files.''')
     parser.add_argument('-w', '--site_water_file', required=False, type=str,
                     help='''a pkl file of site water list.''')
+    parser.add_argument('-q', '--cluster_center_pkl_file', required=False, type=str,
+                    help='''a pkl file of cluster center coords.''')
     
     if len(sys.argv[1:]) == 0:
         parser.print_help()
@@ -56,7 +58,10 @@ def parse_args():
     if args.param_file is not None and not os.path.exists(args.param_file):# or not os.path.isdir(args.param_file):
         sys.exit("%s not found. Please make sure it exits or give the correct path." % args.param_file)
     if args.site_water_file is not None and not os.path.isfile(args.site_water_file):
-        sys.exit("%s not found. Please make sure it exits or give the correct path." % args.clusters)
+        sys.exit("%s not found. Please make sure it exits or give the correct path." % args.site_water_file)
+    if args.cluster_center_pkl_file is not None and not os.path.isfile(args.cluster_center_pkl_file):
+        sys.exit("%s not found. Please make sure it exits or give the correct path." % args.cluster_center_pkl_file)
+
     return args
 
 
@@ -87,11 +92,16 @@ def main():
     if args.site_water_file is not None:
         sw_file = os.path.abspath(args.site_water_file)
 
+    cc_pkl_file = args.cluster_center_pkl_file
+    if args.cluster_center_pkl_file is not None:
+        cc_pkl_file = os.path.abspath(args.cluster_center_pkl_file)
+
     os.chdir(data_dir)
     h = SiteWaterAnalysis(top, traj,
                         start_frame=args.start_frame, num_frames=args.num_frames,
                         ligand_file=ligand, supporting_file=supp, hsa_region_radius=args.hsa_region,
-                        clustercenter_file=clusters, rho_bulk=args.bulk_density, prefix=args.output_prefix, site_water_file=sw_file)
+                        clustercenter_file=clusters, rho_bulk=args.bulk_density, prefix=args.output_prefix,
+                        site_water_file=sw_file, cluster_center_pkl_file=cc_pkl_file)
     h.initialize_hydration_sites()
     h.print_system_summary()
     h.calculate_site_quantities()
